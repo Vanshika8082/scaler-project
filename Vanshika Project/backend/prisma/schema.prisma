@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int            @id @default(autoincrement())
+  name         String
+  email        String         @unique
+  timezone     String         @default("Asia/Kolkata")
+  eventTypes   EventType[]
+  availability Availability[]
+
+  @@map("users")
+}
+
+model EventType {
+  id           Int       @id @default(autoincrement())
+  userId       Int
+  title        String
+  duration     Int       // duration in minutes
+  slug         String    @unique
+  bufferBefore Int       @default(0) // buffer minutes before the meeting
+  bufferAfter  Int       @default(0) // buffer minutes after the meeting
+  createdAt    DateTime  @default(now())
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookings     Booking[]
+
+  @@map("event_types")
+}
+
+model Availability {
+  id        Int    @id @default(autoincrement())
+  userId    Int
+  dayOfWeek Int    // 0=Sunday, 1=Monday, ..., 6=Saturday
+  startTime String // "HH:MM" format e.g. "09:00"
+  endTime   String // "HH:MM" format e.g. "17:00"
+  timezone  String @default("Asia/Kolkata")
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, dayOfWeek, startTime, endTime])
+  @@map("availability")
+}
+
+model Booking {
+  id           Int       @id @default(autoincrement())
+  eventTypeId  Int
+  date         String    // "YYYY-MM-DD"
+  startTime    String    // "HH:MM"
+  endTime      String    // "HH:MM"
+  inviteeName  String
+  inviteeEmail String
+  status       String    @default("booked") // "booked" | "cancelled"
+  createdAt    DateTime  @default(now())
+  eventType    EventType @relation(fields: [eventTypeId], references: [id], onDelete: Cascade)
+
+  @@index([eventTypeId, date, status])
+  @@map("bookings")
+}
