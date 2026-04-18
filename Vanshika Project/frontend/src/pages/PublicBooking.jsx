@@ -102,9 +102,14 @@ export default function PublicBooking() {
   if (loading) {
     return (
       <div className="booking-page">
-        <div className="loading-state" style={{ minHeight: '100vh' }}>
+        <div className="loading-state" style={{ minHeight: '100vh', flexDirection: 'column', textAlign: 'center' }}>
           <div className="spinner" style={{ width: 48, height: 48, borderWidth: 4 }} />
-          <span className="loading-text">Loading event…</span>
+          <div style={{ marginTop: '1.5rem' }}>
+            <div className="loading-text">Loading event…</div>
+            <div style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)', marginTop: '0.5rem' }}>
+              (Waking up the free-tier server, this might take 30-60 seconds!)
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -197,9 +202,14 @@ export default function PublicBooking() {
                   </h3>
 
                   {loadingSlots ? (
-                    <div className="loading-state" style={{ padding: 'var(--space-8)' }}>
+                    <div className="loading-state" style={{ padding: 'var(--space-8)', flexDirection: 'column', textAlign: 'center' }}>
                       <div className="spinner" />
-                      <span className="loading-text">Loading available slots…</span>
+                      <div style={{ marginTop: '1rem' }}>
+                        <div className="loading-text">Loading available slots…</div>
+                        <div style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', marginTop: '0.5rem' }}>
+                          (Waking up the free-tier server, this might take 30-60 seconds!)
+                        </div>
+                      </div>
                     </div>
                   ) : slotsError ? (
                     <div className="alert alert-error">

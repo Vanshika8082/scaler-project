@@ -205,9 +205,14 @@ export default function Dashboard() {
       {activeTab === 'events' && (
         <>
           {loadingEvents ? (
-            <div className="loading-state">
+            <div className="loading-state" style={{ flexDirection: 'column', textAlign: 'center' }}>
               <div className="spinner" />
-              <span className="loading-text">Loading event types…</span>
+              <div style={{ marginTop: '1rem' }}>
+                <div className="loading-text">Loading event types…</div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', marginTop: '0.5rem' }}>
+                  (Waking up the free-tier server, this might take 30-60 seconds!)
+                </div>
+              </div>
             </div>
           ) : eventsError ? (
             <div className="alert alert-error">
@@ -243,9 +248,14 @@ export default function Dashboard() {
       {activeTab === 'availability' && (
         <>
           {loadingAvail ? (
-            <div className="loading-state">
+            <div className="loading-state" style={{ flexDirection: 'column', textAlign: 'center' }}>
               <div className="spinner" />
-              <span className="loading-text">Loading availability…</span>
+              <div style={{ marginTop: '1rem' }}>
+                <div className="loading-text">Loading availability…</div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', marginTop: '0.5rem' }}>
+                  (Waking up the free-tier server, this might take 30-60 seconds!)
+                </div>
+              </div>
             </div>
           ) : (
             <div style={{ maxWidth: 680 }}>
